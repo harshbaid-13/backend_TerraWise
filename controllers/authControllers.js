@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
 //@route POST /api/users/register
 //@access only admin
 const registerUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const { companyName, email, password } = req.body;
   if (!companyName || !email || !password) {
     res.status(400);

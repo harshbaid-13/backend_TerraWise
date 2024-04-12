@@ -16,6 +16,7 @@ const userSchema = mongoose.Schema(
       type: String,
       default: "client",
     },
+    dataId: { type: mongoose.Schema.Types.ObjectId, ref: "GeojsonData" },
   },
   { timestamps: true }
 );
