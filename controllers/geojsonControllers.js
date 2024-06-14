@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const GeojsonData = require("../models/geojsonModel");
-const Image = require("../models/imageModel");
+const CombinerBox = require("../models/combinerBoxModel");
 
 //@desc get a geoJSON file
 //@route GET /api/geojson/
@@ -50,15 +50,34 @@ const uploadGeoJSON = asyncHandler(async (req, res) => {
 const getImages = asyncHandler(async (req, res) => {
   const { name } = req.query;
   try {
-    const images = await Image.findOne({ name });
-    if (!images) {
-      return res.json({ message: "Images not found" });
+    const combinerBox = await CombinerBox.findOne({ combiner_box_id: name });
+    if (!combinerBox) {
+      return res.json({ message: "Combiner Box not found" });
     }
-    res.status(200).json(images);
+    res.status(200).json(combinerBox.frame_data.slice(0, 5));
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
   }
 });
 
-module.exports = { uploadGeoJSON, getGeoJSON, getImages };
+//@desc Upload a CombinerBoxDetails
+//@route POST /api/geojson/uploadCombinerBoxDetails
+//@access private
+const uploadCombinerBoxDetails = asyncHandler(async (req, res) => {
+  const { role } = req.user;
+  let email;
+  if (role === "admin") {
+    const { clientEmail } = req.query;
+    if (!clientEmail) res.status(400).send("Send Client Email");
+    email = clientEmail;
+  } else email = req.user?.email;
+  const data = await CombinerBox.create(req.body);
+  res.status(200).send("Uploaded successfully").json(data);
+});
+module.exports = {
+  uploadGeoJSON,
+  getGeoJSON,
+  getImages,
+  uploadCombinerBoxDetails,
+};

@@ -3,6 +3,7 @@ const {
   uploadGeoJSON,
   getGeoJSON,
   getImages,
+  uploadCombinerBoxDetails,
 } = require("../controllers/geojsonControllers");
 const validateToken = require("../middlewares/validateTokenHandler");
 const multer = require("multer");
@@ -19,5 +20,10 @@ const router = express.Router();
 router.post("/upload", validateToken, upload.single("file"), uploadGeoJSON);
 router.get("/", validateToken, getGeoJSON);
 router.get("/images", validateToken, getImages);
+router.post(
+  "/uploadCombinerBoxDetails",
+  validateToken,
+  uploadCombinerBoxDetails
+);
 
 module.exports = router;

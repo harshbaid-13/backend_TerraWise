@@ -8,6 +8,7 @@ const cors = require("cors");
 
 dotenv.config();
 connectDb();
+
 const app = express();
 const PORT = process.env.PORT || 8000;
 

@@ -8,6 +8,7 @@ const connectDb = async () => {
       connect.connection.host,
       connect.connection.name
     );
+    return connect;
   } catch (error) {
     console.log(error);
     process.exit(1);
