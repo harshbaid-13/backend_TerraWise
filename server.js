@@ -13,9 +13,13 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 app.use(cors());
-app.use(express.json());
-app.use("/api/users", userRoutes);
-app.use("/api/geojson", geojsonRoutes);
+var corsOptions = {
+  origin: "https://backend-terra-wise.vercel.app",
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+app.use(express.json(), cors(corsOptions));
+app.use("/api/users", userRoutes), cors(corsOptions);
+app.use("/api/geojson", geojsonRoutes, cors(corsOptions));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
