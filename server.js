@@ -21,6 +21,10 @@ app.use(express.json(), cors(corsOptions));
 app.use("/api/users", userRoutes), cors(corsOptions);
 app.use("/api/geojson", geojsonRoutes, cors(corsOptions));
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the API server!");
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
